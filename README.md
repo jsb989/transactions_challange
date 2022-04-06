@@ -25,7 +25,7 @@
 >
 
 ## Create container postgres
-> podman pod create --name postgre-sql -p 9876:80
+> podman pod create --name postgre-sql -p 9876:80 -p 5432:5432
 - run 'podman pod ps' to verify if it's running correctly.
 
 The output should be something like:

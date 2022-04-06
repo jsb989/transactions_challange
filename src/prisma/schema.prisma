@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Transactions {
+  id              String   @id @default(uuid())
+  account         String   @db.VarChar(255)
+  description     String?  @db.VarChar(255)
+  category        String?  @db.VarChar(255)
+  reference       String?  @db.VarChar(255)
+  currency        String   @db.VarChar(10)
+  amount          Float    @db.DoublePrecision
+  status          String   @db.VarChar(20)
+  transactionDate DateTime @map("transaction_date")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  @@map("transactions")
+}

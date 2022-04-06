@@ -1,4 +1,4 @@
-[
+export const transactions_array = [
   {
     "id": "e206619a-6dd2-4cc1-8603-429631d46476",
     "account": "Sydney Beard",
