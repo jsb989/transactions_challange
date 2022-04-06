@@ -1,5 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
-const prismaClient = new PrismaClient();
+export interface Context {
+  prisma: PrismaClient
+}
 
-export { prismaClient };
+const prisma = new PrismaClient()
+
+export const context: Context = {
+  prisma: prisma,
+}

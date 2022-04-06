@@ -1,11 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
-import { transactions_array } from "../files/transactions";
+import { transactions_array } from "../src/files/transactions";
 
 async function main() {
   for (const transaction of transactions_array) {
     await prisma.transactions.create({
-      data: transaction,
+      data: {
+        ...transaction,
+        transactionDate: new Date(transaction.transactionDate),
+        createdAt: new Date(transaction.createdAt),
+        updatedAt: new Date(transaction.updatedAt),
+      },
     });
   }
 }
