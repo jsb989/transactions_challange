@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "- Create an SPA that exhibits a page with a table of financial transactions that can be filtered by date range (start month/end month), and a page with the transaction details on click. Use Vue, GraphQL, Prisma (ORM) & Postgres. Use TypeScript in the back-end. No need for any styling on the page. A CSV file with the transactions is attached to this email. Submit a Github repo link with the result.",
   "main": "index.js",
+  "prisma": {
+    "seed": "ts-node src/prisma/seed.ts",
+    "schema": "src/prisma/schema.prisma"
+  },
   "dependencies": {
     "@prisma/client": "^3.10.0",
     "cors": "^2.8.5",
@@ -19,6 +23,7 @@
     "typescript": "^4.6.3"
   },
   "scripts": {
+    "seed": "ts-node src/prisma/seed.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
