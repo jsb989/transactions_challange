@@ -1,12 +1,13 @@
 import { gql } from 'apollo-server'
 import { makeExecutableSchema } from 'apollo-server'
+const { GraphQLScalarType, Kind } = require('graphql');
 import { Context } from './context'
 import { Prisma } from '@prisma/client'
 
 const typeDefs = gql`
   type Query {
     getAllTransactions: [Transaction!]
-    getTransactionsByDate(startMonth: String, endMonth: String): [Transaction!]
+    getTransactionsByDate(startDate: String, endDate: String): [Transaction!]
     getTransactionById(id: ID!): Transaction!
   }
 
@@ -32,17 +33,21 @@ const resolvers = {
 
       return response
     },
-    // getTransactionsByDate: async (_obj: any, args: Prisma.TransactionsWhereUniqueInput, context: Context, _info: any) => {
-    //   const { startMonth, endMonth } = args
+    getTransactionsByDate: async (_obj: any, _args: any, context: Context, _info: any) => {
+      const { startDate, endDate } = _args
 
-    //   const response = await context.prisma.transactions.findUnique({
-    //     where: {
-    //       startMonth,
-    //     },
-    //   })
+      const response = await context.prisma.transactions.findMany({
+        where: {
+          transactionDate: {
+            gte: new Date(startDate),
+            lte: new Date(endDate),
+          },
+        },
+      })
 
-    //   return response
-    // },
+      console.log(response)
+      return response
+    },
     getTransactionById: async (_obj: any, args: Prisma.TransactionsWhereUniqueInput, context: Context, _info: any) => {
       const { id } = args
 
