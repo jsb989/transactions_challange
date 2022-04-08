@@ -1,6 +1,5 @@
 import { gql } from 'apollo-server'
 import { makeExecutableSchema } from 'apollo-server'
-const { GraphQLScalarType, Kind } = require('graphql');
 import { Context } from './context'
 import { Prisma } from '@prisma/client'
 
