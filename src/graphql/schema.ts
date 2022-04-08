@@ -1,12 +1,63 @@
-import { loadFilesSync, mergeTypeDefs } from "graphql-tools";
-import path from "path";
+import { gql } from 'apollo-server'
+import { makeExecutableSchema } from 'apollo-server'
+import { Context } from './context'
+import { Prisma } from '@prisma/client'
 
-const mergePath = loadFilesSync(
-  path.join(__dirname, "modules/**/graphql/*.graphql")
-);
+const typeDefs = gql`
+  type Query {
+    getAllTransactions: [Transaction!]
+    getTransactionsByDate(startMonth: String, endMonth: String): [Transaction!]
+    getTransactionById(id: ID!): Transaction!
+  }
 
-const schema = mergeTypeDefs(mergePath);
+  type Transaction {
+    id: ID!
+    account: String!
+    description: String
+    category: String
+    reference: String
+    currency: String!
+    amount: Float!
+    status: String!
+    transactionDate: String!
+    createdAt: String!
+    updatedAt: String!
+  }
+`
 
-export default schema;
+const resolvers = {
+  Query: {
+    getAllTransactions: async (_obj: any, _args: any, context: Context, _info: any) => {
+      const response = await context.prisma.transactions.findMany()
 
-// https://dev.to/nditah/how-to-build-a-graphql-api-with-apollo-server-and-prisma-1bfj
+      return response
+    },
+    // getTransactionsByDate: async (_obj: any, args: Prisma.TransactionsWhereUniqueInput, context: Context, _info: any) => {
+    //   const { startMonth, endMonth } = args
+
+    //   const response = await context.prisma.transactions.findUnique({
+    //     where: {
+    //       startMonth,
+    //     },
+    //   })
+
+    //   return response
+    // },
+    getTransactionById: async (_obj: any, args: Prisma.TransactionsWhereUniqueInput, context: Context, _info: any) => {
+      const { id } = args
+
+      const response = await context.prisma.transactions.findUnique({
+        where: {
+          id,
+        },
+      })
+
+      return response
+    },
+  }
+}
+
+export const schema = makeExecutableSchema({
+  resolvers,
+  typeDefs,
+})

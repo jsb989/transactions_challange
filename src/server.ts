@@ -1,20 +1,12 @@
-import express from 'express'
-import { graphqlHTTP } from 'express-graphql'
-import { schema } from './database/schema'
-import { context } from './database/prismaClient'
+import { ApolloServer } from 'apollo-server'
+import { schema } from './graphql/schema'
+import { context } from './graphql/context'
 
-const app = express()
+const server = new ApolloServer({
+  schema,
+  context,
+})
 
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema: schema,
-    context: context,
-    graphiql: true,
-  }),
-)
-app.listen(4000)
-console.log(`\
-🚀 Server ready at: http://localhost:4000/graphql
-⭐️ See sample queries: http://pris.ly/e/ts/graphql#using-the-graphql-api
-`)
+server.listen().then(({ url }) => {
+  console.log(`graphql api running at ${url}graphql`)
+})
