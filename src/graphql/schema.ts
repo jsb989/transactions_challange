@@ -53,16 +53,21 @@ export const resolvers = {
       return response;
     },
     getTransactionsByDate: async ( _obj: any, _args: any, context: Context, _info: any) => {
+      let response = []
       const { startDate, endDate } = _args;
-
-      const response = await context.prisma.transactions.findMany({
-        where: {
-          transactionDate: {
-            gte: new Date(startDate),
-            lte: new Date(endDate),
+      if(!startDate || !endDate === null ){
+        response = await context.prisma.transactions.findMany();
+      }
+      else {
+        response = await context.prisma.transactions.findMany({
+          where: {
+            transactionDate: {
+              gte: new Date(startDate),
+              lte: new Date(endDate),
+            },
           },
-        },
-      });
+        });
+      }
 
       console.log(response);
       return response;

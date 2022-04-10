@@ -24,6 +24,20 @@
     sudo yum -y install podman
 >
 
+
+create .env file with this line:
+DATABASE_URL="postgresql://admin:Passw0rd@localhost:5432/airbank?schema=public"
+
+# Auto install
+After the instructions above,
+Install "make" package on your linux distro.
+
+Run the following command:
+> make install
+
+Everything should be installed and the service will be running fine at por 4000.
+
+# Manual installation
 ## Create container postgres
 > podman pod create --name postgre-sql -p 9876:80 -p 5432:5432
 - run 'podman pod ps' to verify if it's running correctly.
@@ -56,3 +70,5 @@ Run PostgreSQL 14 container
 
 If everything is ok, you should be able to access PgAdmin from 
 http://localhost:9876/
+
+To run the service

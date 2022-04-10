@@ -12,5 +12,5 @@ CREATE TABLE "transactions" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "transactions_pkey" PRIMARY KEY ("id")
+    PRIMARY KEY ("id")
 );
