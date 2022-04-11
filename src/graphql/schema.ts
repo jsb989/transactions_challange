@@ -59,11 +59,15 @@ export const resolvers = {
         response = await context.prisma.transactions.findMany();
       }
       else {
+        const start = new Date(startDate)
+        let end = new Date(endDate)
+        end.setUTCHours(23,59,59,999)
+        
         response = await context.prisma.transactions.findMany({
           where: {
             transactionDate: {
-              gte: new Date(startDate),
-              lte: new Date(endDate),
+              gte: start,
+              lte: end,
             },
           },
         });
